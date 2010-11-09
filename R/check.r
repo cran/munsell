@@ -7,6 +7,7 @@
 #' fix "bad" colours
 #' @return  a character vector containing the input colours.  If any colours
 #' were outside the gamut they will be represented by NA.
+#' @export
 #' @examples 
 #' check_mnsl(c("5R 5/8","2.5R 9/28"))
 #' @keywords internal
@@ -77,6 +78,7 @@ check_mnsl <- function(col,  fix = FALSE){
 #' fix "bad" colours
 #' @return  a character vector containing the input colours.  If any colours
 #' were outside the gamut they will be represented by NA.
+#' @export
 #' @examples 
 #' in_gamut(c("5R 5/8","2.5R 9/28"))
 #' @keywords internal
@@ -103,6 +105,7 @@ in_gamut <- function(col, fix = FALSE){
 #' chroma.
 #' @param col a character vector representing Munsell colours.
 #' @return  a character vector containing the fixed colours.
+#' @export
 #' @examples 
 #' fix_mnsl(c("5R 5/8","2.5R 9/28"))
 #' @keywords internal
@@ -121,6 +124,7 @@ fix_mnsl <- function(col){
 #'
 #' Returns a character vector of the Munsell hues in hue order starting at 2.5R and excluding grey ("N").
 #' @return  a character vector containing the fixed colours.
+#' @export
 #' @examples 
 #' mnsl_hues()
 mnsl_hues <- function(){
