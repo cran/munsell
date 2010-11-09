@@ -1,7 +1,6 @@
 #' Default display settings for plots of rectangular format
 #' @keywords internal
 #' @param bg.col takes colour to use as background colour
-
 plot_common <- function(bg.col){
   list(scale_fill_identity(), 
   opts(panel.grid.major = theme_blank(), 
@@ -45,10 +44,12 @@ plot_polar <- function(bg.col){
 #' @param hex.colour character vector specifying colours in hex form
 #' @param back.col specification of background colour of display
 #' @return A ggplot object
+#' @export
 #' @examples
 #' plot_hex("#000000")
 #' plot_hex(c("#000000","#FFFFFF"))
 plot_hex <- function(hex.colour,  back.col = "white"){
+  require("ggplot2")
   if(length(hex.colour) == 1) add.ops <- list(geom_text(aes(label = names)))
   else add.ops <- list(facet_wrap(~ names))
   
@@ -67,6 +68,7 @@ plot_hex <- function(hex.colour,  back.col = "white"){
 #' @param back.col specification of background colour of display
 #' @param ... passed to \code{\link{check_mnsl}}. Add fix = TRUE to fix "bad" colours()
 #' @return A ggplot object
+#' @export
 #' @examples
 #' plot_mnsl("5R 5/6")
 #' plot_mnsl("5R 5/6",  back.col = "grey40")
@@ -77,6 +79,8 @@ plot_hex <- function(hex.colour,  back.col = "white"){
 #' summary(p)
 #' p + facet_wrap(~ names, nrow = 1)
 plot_mnsl <- function(cols,  back.col = "white", ...){
+  require("ggplot2")
+
   if(length(cols) == 1) {add.ops <- list(
     geom_text(aes(label = names, colour = text_colour(as.character(names)))), 
     scale_colour_identity())}
@@ -97,11 +101,14 @@ plot_mnsl <- function(cols,  back.col = "white", ...){
 #' @param hue.name character vector of the desired hues. Or "all" for all hues.
 #' @param back.col colour for the background
 #' @return ggplot object
+#' @export
 #' @examples
 #' hue_slice("5R")
 #' hue_slice(c("5R", "5P"))
 #' \dontrun{hue_slice("all")}
 hue_slice <- function(hue.name = "all",  back.col = "white"){
+  require("ggplot2")
+
   if (any(hue.name == "all")) {
     return(ggplot(aes(x = factor(chroma), y = factor(value)), 
       data = munsell.map) +
@@ -134,12 +141,15 @@ hue_slice <- function(hue.name = "all",  back.col = "white"){
 #' @param value.name integer vector of the desired values. 
 #' @param back.col colour for the background
 #' @return ggplot object
+#' @export
 #' @examples
 #' value_slice(2)
 #' value_slice(c(2, 4))
 #' # all values 
 #' \dontrun{value_slice(1:10)}
-value_slice <- function(value.name,  back.col = "white"){
+value_slice <- function(value.name = 1:10,  back.col = "white"){
+  require("ggplot2")
+
   if (!all(value.name %in% munsell.map$value)) stop("invalid Value")
   ggplot(aes(x = hue, y = factor(chroma)), 
     data = subset(munsell.map, value %in% value.name & hue != "N" & !is.na(hex))) +
@@ -157,6 +167,7 @@ value_slice <- function(value.name,  back.col = "white"){
 #' @param chroma.name integer vector of the desired values. 
 #' @param back.col colour for the background
 #' @return ggplot object
+#' @export
 #' @examples
 #' chroma_slice(2)
 #' chroma_slice(18)
@@ -167,7 +178,9 @@ value_slice <- function(value.name,  back.col = "white"){
 #'  axis.text.y = theme_text())  
 #' # all values 
 #' \dontrun{chroma_slice(seq(0, 38, by = 2))}
-chroma_slice <- function(chroma.name,  back.col = "white"){
+chroma_slice <- function(chroma.name = seq(0, 38, by = 2),  back.col = "white"){
+  require("ggplot2")
+
   if (!all(chroma.name %in% munsell.map$chroma)) stop("invalid Chroma")
   ggplot(aes(x = hue, y = value), 
     data = subset(munsell.map, chroma %in% chroma.name & hue != "N")) +
@@ -188,10 +201,13 @@ chroma_slice <- function(chroma.name,  back.col = "white"){
 #' @param hue.name character string of the desired hue. 
 #' @param back.col colour for the background
 #' @return ggplot object
+#' @export
 #' @examples
 #' complement_slice("5PB")
 #' complement_slice("5R")
 complement_slice <- function(hue.name,  back.col = "white"){
+  require("ggplot2")
+
   if (length(hue.name) > 1) stop("complement_slice currently only takes one hue")
   if (!hue.name %in% munsell.map$hue) stop("invalid hue name")
   hues <- levels(munsell.map$hue)[-1]
@@ -227,10 +243,13 @@ complement_slice <- function(hue.name,  back.col = "white"){
 #' @param back.col colour for the background
 #' @seealso \code{\link{rgb2mnsl}}
 #' @return ggplot object
+#' @export
 #' @examples
 #' plot_closest(0.1, 0.1, 0.3)
 #' plot_closest(matrix(c(.1, .2, .4, .5, .6, .8),  ncol = 3)) 
 plot_closest <- function(R, G = NULL, B = NULL,  back.col = "white"){
+  require("ggplot2")
+
   closest <- rgb2mnsl(R, G, B)
   ncolours <- length(closest)
   rgbnames <- apply(round(RGB(R, G, B)@coords, 2), 1, paste, collapse = ", ")
@@ -252,6 +271,7 @@ plot_closest <- function(R, G = NULL, B = NULL,  back.col = "white"){
 #' Get the appropriate text colour for writing on a munsell colour.
 #' @param a character vector of munsell colours
 #' @return a vector of "black" or "white"
+#' @export
 #' @keywords internal
 text_colour <- function(cols){
   col.split <- lapply(strsplit(cols, "/"), 

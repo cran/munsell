@@ -14,16 +14,20 @@
 #' fix "bad" colours
 #' @return a character string specification of a hex colour
 #' @seealso \code{\link{check_mnsl}}, \code{\link{hvc2mnsl}}
+#' @aliases mnsl2hex mnsl
+#' @export mnsl2hex mnsl
 #' @examples
 #' mnsl2hex("5PB 5/10")
 #' # use a munsell colour in a plot
+#' require("ggplot2")
 #' ggplot(data.frame(x = 1:10)) + geom_point(aes(x = x, y = x), 
 #'   colour = mnsl2hex("5PB 5/10"))
-mnsl2hex <- function(col, ...){
+mnsl <- function(col, ...){
   col <- check_mnsl(col, ...)
   positions <- match(col, munsell.map$name)
   munsell.map[positions, "hex"]
 }
+mnsl2hex <- mnsl
 
 #' Converts a hue, chroma and value to a Munsell colour
 #'
@@ -43,6 +47,7 @@ mnsl2hex <- function(col, ...){
 #' fix "bad" colours
 #' @return a character string specification of a hex colour
 #' @seealso \code{\link{check_mnsl}}, \code{\link{mnsl2hex}}
+#' @export
 #' @examples
 #' hvc2mnsl("5PB", 5, 10)
 #' # All values of 5PB with chroma 10
@@ -63,6 +68,7 @@ hvc2mnsl <- function(hue, value, chroma, ...){
 #' @param G numeric vector of green values
 #' @param B numeric vector of blue values
 #' @seealso \code{\link{plot_closest}}
+#' @export
 #' @examples
 #' rgb2mnsl(0.1, 0.1, 0.3)
 #' rgb2mnsl(matrix(c(.1, .2, .4, .5, .6, .8),  ncol = 3))
