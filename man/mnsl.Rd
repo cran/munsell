@@ -33,7 +33,7 @@ mnsl2hex("5PB 5/10")
 # use a munsell colour in a plot
 require("ggplot2")
 ggplot(data.frame(x = 1:10)) + geom_point(aes(x = x, y = x),
-colour = mnsl2hex("5PB 5/10"))
+  colour = mnsl2hex("5PB 5/10"))
 }
 \seealso{
   \code{\link{check_mnsl}}, \code{\link{hvc2mnsl}}

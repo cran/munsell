@@ -1,6 +1,9 @@
 \name{mnsl_hues}
 \alias{mnsl_hues}
 \title{Munsell hues}
+\usage{
+  mnsl_hues()
+}
 \value{
   a character vector containing the fixed colours.
 }
