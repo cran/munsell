@@ -35,7 +35,9 @@ plot_hex <- function(hex.colour,  back.col = "white"){
   if(length(hex.colour) == 1) add.ops <- list(geom_text(aes(label = names)))
   else add.ops <- list(facet_wrap(~ names))
   
-  df <- data.frame(colour = hex.colour, names = hex.colour, x = 0, y = 0)
+  df <- data.frame(colour = hex.colour, 
+                   names = factor(hex.colour, levels=hex.colour), 
+                   x = 0, y = 0)
   ggplot(data = df,  aes(x = x,  y = y)) + geom_tile(aes(fill = colour)) + 
      scale_fill_identity() + add.ops + 
      scale_x_continuous(expand = c(0, 0))+
@@ -165,7 +167,7 @@ value_slice <- function(value.name = 1:10,  back.col = "white"){
 #'           axis.text.x = element_text(angle = 90, hjust = 1))
 #' # all values 
 #' \dontrun{chroma_slice(seq(0, 38, by = 2))}
-chroma_slice <- function(chroma.name = seq(0, 38, by = 2),  back.col = "white"){
+chroma_slice <- function(chroma.name = seq(0, 26, by = 2),  back.col = "white"){
   require("ggplot2")
 
   if (!all(chroma.name %in% munsell.map$chroma)) stop("invalid Chroma")
@@ -202,7 +204,7 @@ complement_slice <- function(hue.name,  back.col = "white"){
   index <- which(hues == hue.name)
   comp.hue <- hues[(index + 20) %% 40]
   munsell.sub <- subset(munsell.map, 
-    hue == "N" | hue == hue.name | hue == comp.hue)
+     hue == hue.name | hue == comp.hue)
   munsell.sub <- within(munsell.sub, {
     chroma <- ifelse(hue == comp.hue, -1, 1) * chroma
     hue <- factor(hue, levels = c(comp.hue, "N", hues[index]))
@@ -213,7 +215,8 @@ complement_slice <- function(hue.name,  back.col = "white"){
      geom_tile(aes(fill = hex), colour = back.col,  size = 1) +
     geom_text(aes(label = name, colour = text_colour(name)), 
       angle = 45, size = 2) +
-     scale_colour_identity() +
+    scale_fill_identity() +
+    scale_colour_identity() +
     scale_x_continuous("Chroma") + 
     scale_y_continuous("Value") +
     facet_grid(. ~ hue,  scales = "free_x", space = "free")  +
