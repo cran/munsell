@@ -1,3 +1,19 @@
+Version 0.4.3
+==============================================================================
+* many fixes to remove R CMD check notes/warnings fixes issue (#5)
+
+* fix bug that gave incorrect greys 
+
+* add functions rygbp and pbgyr to change the hue of a colour
+
+* add function mnsl2hvc to pull apart a munsell string
+
+* reimplement altering functions to make use of mnsl2hvc and hvc2mnsl
+
+* fix plot_mnsl to show multiple swatches of identical colour
+
+* lighter, darker, saturate and desaturate take an additional argument 'steps' to specify how many steps to take.
+
 Version 0.4.2
 ==============================================================================
 
