@@ -9,8 +9,7 @@ complement(col, ...)
 \arguments{
 \item{col}{character vector of Munsell colours}
 
-\item{...}{passed on to \code{\link{in_gamut}}. Use \code{fix = TRUE} to
-fix "bad" complement}
+\item{...}{deprecated}
 }
 \value{
 character vector of Munsell colours
@@ -25,4 +24,3 @@ complement("5PB 2/4")
 cols <- c("5PB 2/4", "5Y 7/8")
 plot_mnsl(c(cols, complement(cols)))
 }
-
